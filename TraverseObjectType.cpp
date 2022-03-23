@@ -1,39 +1,39 @@
 #include<ntddk.h>
-void traverseObjectType()
+void TraverseObjectType()
 {
 	/*
-	author£ºSnA1lGo
+	authorï¼šSnA1lGo
 	time:	2022/3/3
-	×÷ÓÃ£º	±éÀúÀàĞÍ¶ÔÏó
+	ä½œç”¨ï¼š	éå†ç±»å‹å¯¹è±¡
 
-	±äÁ¿ËµÃ÷£º
-		FunctionName:			º¯ÊıÃû³Æe
-		FuncAddr:				º¯ÊıµØÖ·
-		ObTypeIndexTableAddr£º	ÀàĞÍ¶ÔÏó±íÊ×µØÖ·
+	å˜é‡è¯´æ˜ï¼š
+		FunctionName:			å‡½æ•°åç§°e
+		FuncAddr:				å‡½æ•°åœ°å€
+		ObTypeIndexTableAddrï¼š	ç±»å‹å¯¹è±¡è¡¨é¦–åœ°å€
 
-	º¯ÊıÁ÷³Ì£º
-		Ê×ÏÈ»ñÈ¡ObGetObjectTypeº¯ÊıµØÖ·£¬È»ºóÍ¨¹ıÓ²±àÂëÆ«ÒÆ15¸ö×Ö½Úºó£¬È¡³öËÄ¸ö×Ö½ÚµÄÄÚÈİµÃµ½ObTypeIndexTableµØÖ·¡£
-		È»ºó½«Æä×÷ÎªÊı×é´¦Àí¡£
+	å‡½æ•°æµç¨‹ï¼š
+		é¦–å…ˆè·å–ObGetObjectTypeå‡½æ•°åœ°å€ï¼Œç„¶åé€šè¿‡ç¡¬ç¼–ç åç§»15ä¸ªå­—èŠ‚åï¼Œå–å‡ºå››ä¸ªå­—èŠ‚çš„å†…å®¹å¾—åˆ°ObTypeIndexTableåœ°å€ã€‚
+		ç„¶åå°†å…¶ä½œä¸ºæ•°ç»„å¤„ç†ã€‚
 	*/
 	UNICODE_STRING FunctionName;
 	PVOID FuncAddr;
-	ULONG* ObTypeIndexTableAddr;//ÄÚºË±íµÄµØÖ·
+	ULONG* ObTypeIndexTableAddr;//å†…æ ¸è¡¨çš„åœ°å€
 	RtlInitUnicodeString(&FunctionName, L"ObGetObjectType");
 	FuncAddr = MmGetSystemRoutineAddress(&FunctionName);
 	if (!MmIsAddressValid(FuncAddr))
 	{
-		KdPrint(("º¯ÊıµØÖ·»ñÈ¡Ê§°Ü\n"));
+		KdPrint(("å‡½æ•°åœ°å€è·å–å¤±è´¥\n"));
 		return;
 	}
 	else
 	{
-		KdPrint(("º¯ÊıµØÖ·%x\n", FuncAddr));
+		KdPrint(("å‡½æ•°åœ°å€%x\n", FuncAddr));
 	}
-	ObTypeIndexTableAddr = *(ULONG**)((char*)FuncAddr + 15);//ÏÈÆ«ÒÆ15¸ö×Ö½ÚÔÙÈ¡ËÄ¸ö×Ö½ÚµÄÄÚÈİ
-	int i = 2;//´ÓÏÂ±êÎª2µÄµØ·½¿ªÊ¼
+	ObTypeIndexTableAddr = *(ULONG**)((char*)FuncAddr + 15);//å…ˆåç§»15ä¸ªå­—èŠ‚å†å–å››ä¸ªå­—èŠ‚çš„å†…å®¹
+	int i = 2;//ä»ä¸‹æ ‡ä¸º2çš„åœ°æ–¹å¼€å§‹
 	while (ObTypeIndexTableAddr[i])
 	{
-		KdPrint(("%d %wZ : %x\n", i, ObTypeIndexTableAddr[i] + 8, ObTypeIndexTableAddr[i]));//±éÀúÄÚºË±í
+		KdPrint(("%d %wZ : %x\n", i, ObTypeIndexTableAddr[i] + 8, ObTypeIndexTableAddr[i]));//éå†å†…æ ¸è¡¨
 		i++;
 	}
 }
@@ -44,6 +44,6 @@ NTSTATUS DriverEntry(_In_ PDRIVER_OBJECT DriverObject, _In_ PUNICODE_STRING Regi
 {
 	UNREFERENCED_PARAMETER(DriverObject);
 	UNREFERENCED_PARAMETER(RegistryPath);
-	traverseObjectType();
+	TraverseObjectType();
 	return STATUS_SUCCESS;
 }
